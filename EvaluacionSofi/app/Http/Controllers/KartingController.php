@@ -22,7 +22,7 @@ class KartingController extends Controller
      */
     public function create()
     {
-        return view('karting.create');
+        return view('karting.form', ['karting' => new Karting()]);
     }
 
     /**
@@ -61,7 +61,7 @@ class KartingController extends Controller
     public function edit(string $id)
     {
         $karting=Karting::find($id);
-        return view('karting.edit')->with('karting',$karting);
+        return view('karting.form')->with('karting',$karting);
     }
 
     /**
