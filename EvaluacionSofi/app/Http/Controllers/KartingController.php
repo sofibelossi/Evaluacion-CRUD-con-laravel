@@ -102,4 +102,14 @@ class KartingController extends Controller
        $karting->delete();//se usa eloquent
        return redirect('/kartings');
     }
+    public function buscar (Request $request){
+        $query=$request->get('buscar');
+        if($query){
+            $results = Karting::where('marca', 'LIKE', "%{$query}%")->get();
+        }else{
+            $results = Karting::all();
+        }
+       return view('karting.kartings')->with('kartings',$results);
+
+    }
 }
