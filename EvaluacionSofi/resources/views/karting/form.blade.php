@@ -4,7 +4,7 @@
 <h2 class="mt-2 ">{{ $karting->exists ? 'Editar karting' : 'Agregar karting'}}</h2>
 
 <div style="width:400px;heigth:200;border: solid 1px;border-radius:10px;padding:15px;">
-<form action="{{$karting->exists ? route ('kartings.update', $karting->id) : route('kartings.store')}}" method="post">
+<form action="{{$karting->exists ? route ('kartings.update', $karting->id) : route('kartings.store')}}" method="post" enctype="multipart/form-data">
     @csrf
     @if($karting->exists)
       @method ('PUT')
@@ -51,7 +51,7 @@
   @if($karting->exists && $karting->imagen)
   <div class="mb-3">
     <label for="" class="form-label">Imagen</label> <br>
-    <img src="{{ asset('imagenes/'.$karting->imagen) }}" alt="imagen actual">  
+    <img src="{{ asset('imagenes/'.$karting->imagen) }}" alt="imagen actual" heigth="100 px" width="200px">  
 </div>
 @endif
 <div class="mb-3">

@@ -111,35 +111,36 @@ class KartingController extends Controller
        $karting->delete();//se usa eloquent
        return redirect('/kartings')->with('status', 'Karting eliminado con éxito');
     }
-    public function buscar(Request $request)
+   public function buscar(Request $request)
 {
-    //Parámetros de búsqueda y orden
+    // Parámetros de búsqueda y orden
     $query = $request->input('buscar');
     $sortField = $request->input('sort', 'id'); // Campo por defecto
     $sortDirection = $request->input('direction', 'asc'); // Dirección por defecto
 
-    //consulta
+    // Consulta base
     $kartings = Karting::query();
 
-    // filtra por marca, modelo o tipomotor
+    // Filtrar por marca, modelo o tipo de motor
     if (!empty($query)) {
-        $kartings->where(function($q) use ($query) {
+        $kartings->where(function ($q) use ($query) {
             $q->where('marca', 'LIKE', "%{$query}%")
               ->orWhere('modelo', 'LIKE', "%{$query}%")
               ->orWhere('tipo_motor', 'LIKE', "%{$query}%");
         });
     }
 
-    //ordenamiento
+    // Ordenar por el campo y dirección seleccionados
     $kartings = $kartings->orderBy($sortField, $sortDirection)->get();
 
-    
-    return view('kartings.karting', [
+    // Retornar la vista
+    return view('karting.kartings', [
         'kartings' => $kartings,
         'sortField' => $sortField,
         'sortDirection' => $sortDirection,
         'buscar' => $query,
     ]);
 }
+
 
 }

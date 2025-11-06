@@ -16,11 +16,16 @@
 </div>
 <div class="col-6">
     <form action="{{route('buscar')}}" method="get">
-       
-     <input type="text" placeholder="Buscar por marca, modelo o tipo de motor" class="form-control" name="buscar">
-     <button type="submit" class="btn btn-outline-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+    <div class="row">
+        <div class="col-6">
+            <input type="text" placeholder="Buscar por marca, modelo o tipo de motor" class="form-control" name="buscar">
+            </div>
+        <div class="col-6">
+         <button type="submit" class="btn btn-outline-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
   <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
 </svg></button>
+</div>
+</div>
     </form>
     </div>
 
@@ -32,24 +37,47 @@
                     $direction = request('direction', 'asc') === 'asc' ? 'desc' : 'asc';
                 @endphp
         <th scope="col">
-         <a href="{{ route('kartings.index', ['sort' => 'id', 'direction' => $sortField === 'id' && $sortDirection === 'asc' ? 'desc' : 'asc']) }}">
-            Id
-            @if($sortField === 'id')
-                    @if($sortDirection === 'asc') ▲ @else ▼ @endif
-            @endif
-        </a>    
-        </th>
-        <th scope="col">Marca</th>
-        <th scope="col">Modelo</th>
-        <th scope="col">Año</th>
-        <th scope="col">Tipo motor</th>
+                <a href="?sort=id&direction={{ $sortField === 'id' && $sortDirection === 'asc' ? 'desc' : 'asc' }}">
+                    Id
+                    @if($sortField === 'id')
+                        {{ $sortDirection === 'asc' ? '↑' : '↓' }}
+                    @endif
+                </a>
+            </th>
+        <th scope="col"><a href="?sort=marca&direction={{ $sortField === 'marca' && $sortDirection === 'asc' ? 'desc' : 'asc' }}">
+                    Marca
+                    @if($sortField === 'marca')
+                        {{ $sortDirection === 'asc' ? '↑' : '↓' }}
+                    @endif
+                </a>
+            </th>
         <th scope="col">
-            <a href="{{route ('kartings.index', ['sort' => 'precio_alquiler', 'direction' => $sortField === 'precio_alquiler' && $sortDirection === 'asc' ? 'desc':'asc'])}}">
-            Precio alquiler
-            @if($sortField === 'precio_alquiler')
-                    @if($sortDirection === 'asc') ▲ @else ▼ @endif
-            @endif
-            </a>
+            <a href="?sort=modelo&direction={{ $sortField === 'modelo' && $sortDirection === 'asc' ? 'desc' : 'asc' }}">
+                    Modelo
+                    @if($sortField === 'modelo')
+                        {{ $sortDirection === 'asc' ? '↑' : '↓' }}
+                    @endif
+                </a></th>
+        <th scope="col"><a href="?sort=anio&direction={{ $sortField === 'anio' && $sortDirection === 'asc' ? 'desc' : 'asc' }}">
+                    Año
+                    @if($sortField === 'anio')
+                        {{ $sortDirection === 'asc' ? '↑' : '↓' }}
+                    @endif
+                </a></th>
+        <th scope="col">
+            <a href="?sort=tipo_motor&direction={{ $sortField === 'tipo_motor' && $sortDirection === 'asc' ? 'desc' : 'asc' }}">
+                    Tipo motor
+                    @if($sortField === 'tipo_motor')
+                        {{ $sortDirection === 'asc' ? '↑' : '↓' }}
+                    @endif
+                </a></th>
+        <th scope="col">
+            <a href="?sort=precio_alquiler&direction={{ $sortField === 'precio_alquiler' && $sortDirection === 'asc' ? 'desc' : 'asc' }}">
+                    Precio alquiler
+                    @if($sortField === 'precio_alquiler')
+                        {{ $sortDirection === 'asc' ? '↑' : '↓' }}
+                    @endif
+                </a>
         </th>
         <th scope="col">Imagen</th>
         <th scope="col">Acciones</th>

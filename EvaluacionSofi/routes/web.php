@@ -8,7 +8,7 @@ Route::get('/', function () {
     return redirect()->route('kartings.index');
 });
 Route::resource('kartings','App\Http\Controllers\KartingController');
-Route::get('/kartings/buscar', [App\Http\Controllers\KartingController::class, 'buscar'])->name('buscar');
+Route::get('/buscar', [App\Http\Controllers\KartingController::class, 'buscar'])->name('buscar');
 
 Route::view('/login', 'auth.login')->name('login');
 Route::post('/login', [LoginController::class, 'store']);
