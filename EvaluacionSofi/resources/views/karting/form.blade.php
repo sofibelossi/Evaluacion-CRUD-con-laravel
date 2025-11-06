@@ -1,6 +1,9 @@
 @extends('layout')
 @section('contenido')
-<h2>{{ $karting->exists ? 'Editar karting' : 'Agregar karting'}}</h2>
+<center>
+<h2 class="mt-2 ">{{ $karting->exists ? 'Editar karting' : 'Agregar karting'}}</h2>
+
+<div style="width:400px;heigth:200;border: solid 1px;border-radius:10px;padding:15px;">
 <form action="{{$karting->exists ? route ('kartings.update', $karting->id) : route('kartings.store')}}" method="post">
     @csrf
     @if($karting->exists)
@@ -24,7 +27,7 @@
   </div>
 
   <div class="mb-3">
-    <label for="" class="form-label">Anio</label>
+    <label for="" class="form-label">Año</label>
     <input type="text" class="form-control" name="anio" value="{{ old('anio', $karting->anio) }}">
     @error('anio')
         <div class="text-danger">{{ $message }}</div>
@@ -59,4 +62,6 @@
     {{ $karting->exists ? 'Guardar cambios' : 'Agregar'}}
   </button>
 </form>
+</div>
+</center>
 @endsection

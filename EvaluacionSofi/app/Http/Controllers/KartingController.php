@@ -10,12 +10,21 @@ class KartingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $kartings=Karting::all();
-        return view('karting.kartings')->with('kartings',$kartings);
+    public function index(Request $request)
+{
+    $sortField = $request->input('sort', 'id');
+    $sortDirection = $request->input('direction', 'asc');
 
-    }
+    $kartings = Karting::orderBy($sortField, $sortDirection)->get();
+
+    return view('karting.kartings', [
+        'kartings' => $kartings,
+        'sortField' => $sortField,
+        'sortDirection' => $sortDirection,
+        'buscar' => '',
+    ]);
+}
+
 
     /**
      * Show the form for creating a new resource.
@@ -44,7 +53,7 @@ class KartingController extends Controller
         $kartings->imagen = $nombre;
     }
         $kartings->save();//se usa eloquent
-        return redirect('/kartings');
+        return redirect('/kartings')->with('status', 'Karting agregado con éxito');
     }
 
     /**
@@ -90,7 +99,7 @@ class KartingController extends Controller
         $karting->imagen = $nombre;
     }     
         $karting->save();//se usa eloquent
-        return redirect('/kartings');
+        return redirect('/kartings')->with('status', 'Karting modificado con éxito');
     }
 
     /**
@@ -100,16 +109,37 @@ class KartingController extends Controller
     {
        $karting = Karting::find($id);
        $karting->delete();//se usa eloquent
-       return redirect('/kartings');
+       return redirect('/kartings')->with('status', 'Karting eliminado con éxito');
     }
-    public function buscar (Request $request){
-        $query=$request->get('buscar');
-        if($query){
-            $results = Karting::where('marca', 'LIKE', "%{$query}%")->get();
-        }else{
-            $results = Karting::all();
-        }
-       return view('karting.kartings')->with('kartings',$results);
+    public function buscar(Request $request)
+{
+    //Parámetros de búsqueda y orden
+    $query = $request->input('buscar');
+    $sortField = $request->input('sort', 'id'); // Campo por defecto
+    $sortDirection = $request->input('direction', 'asc'); // Dirección por defecto
 
+    //consulta
+    $kartings = Karting::query();
+
+    // filtra por marca, modelo o tipomotor
+    if (!empty($query)) {
+        $kartings->where(function($q) use ($query) {
+            $q->where('marca', 'LIKE', "%{$query}%")
+              ->orWhere('modelo', 'LIKE', "%{$query}%")
+              ->orWhere('tipo_motor', 'LIKE', "%{$query}%");
+        });
     }
+
+    //ordenamiento
+    $kartings = $kartings->orderBy($sortField, $sortDirection)->get();
+
+    
+    return view('kartings.karting', [
+        'kartings' => $kartings,
+        'sortField' => $sortField,
+        'sortDirection' => $sortDirection,
+        'buscar' => $query,
+    ]);
+}
+
 }

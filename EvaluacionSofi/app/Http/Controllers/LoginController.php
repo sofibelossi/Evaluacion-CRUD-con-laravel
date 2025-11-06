@@ -27,15 +27,13 @@ class LoginController extends Controller
     }
 
     
-    public function destroy(string $id)
-    {
-        Auth::guard('web')->logout();
+    public function destroy(Request $request)
+{
+    Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
 
-        $request->session()->regenerateToken();
-
-        return to_route('login')
-            ->with('status', 'Sesión cerrada');
-    }
+    return redirect()->route('login')->with('status', 'Sesión cerrada');
+}
 }
